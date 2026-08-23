@@ -18,7 +18,7 @@ The system turns a job description into a grounded analysis of candidate strengt
 - Frontend + Agentic UX complete.
 - The system uses grounded RAG, OpenAI structured outputs, candidate-claim guardrails, bounded function calling, deterministic matching, and execution trace reporting.
 - Final live validation completed successfully after resolving the function-tool schema compatibility issue.
-- `67` automated backend tests passed and the frontend build passed.
+- `70` automated backend tests passed and the frontend build passed.
 - Five representative live scenarios were validated: .NET/Backend, React/Frontend, DevOps/Cloud, AI/LLM, and an unsuitable role.
 - RAG grounding, guardrail rejection of unsupported claims, tool calling, match analysis, cover-letter generation, and execution traces all completed successfully.
 - Frontend build: successful.
@@ -42,6 +42,8 @@ The system turns a job description into a grounded analysis of candidate strengt
 Frontend -> API -> Application Services -> Agent/RAG/Guardrails -> OpenAI / Evidence Provider -> Grounded Result
 
 The backend routes are thin. Application services own orchestration and validation. Infrastructure owns OpenAI, RAG, and storage adapters. The frontend only calls the existing API and renders the returned result and trace.
+
+Match Breakdown uses the approved candidate claims produced by Job Analysis after guardrail validation; its deterministic score and requirement statuses are not derived from unverified job-text claims.
 
 ## Agent Workflow
 
@@ -141,7 +143,7 @@ The frontend runs at `http://127.0.0.1:5173` when launched with the default Vite
 
 ## Testing
 
-- `python -m pytest` -> `67 passed`
+- `python -m pytest` -> `70 passed`
 - `npm run build` -> successful
 
 ## Project Direction

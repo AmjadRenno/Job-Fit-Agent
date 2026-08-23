@@ -605,6 +605,18 @@ No Wave 7 or new production feature was started.
 - Updated `.gitignore` to cover `node_modules/` and `*.tsbuildinfo` in addition to the existing cache and environment ignores.
 - Confirmed the current validation status remains unchanged: backend tests still pass, frontend build still passes, and the live OpenAI path is still blocked by `429 billing_not_active`.
 
+## 2026-08-23 | Final Regression, Documentation, and Release Validation
+
+- Fixed Match Breakdown to consume the same guardrail-approved `CandidateClaim` values produced by Job Analysis instead of synthesizing claims from job requirements.
+- Fixed requirement tokenization so periods inside terms such as `ASP.NET Core` are preserved while genuine sentence boundaries still split correctly.
+- Added regression coverage for both `ASP.NET Core` preservation and genuine sentence splitting, plus shared approved-claim matching.
+- Full backend regression suite passed: 70 tests, 0 failures, with one non-failing Starlette/httpx deprecation warning.
+- Final live validation passed for .NET/Backend, React/Frontend, DevOps/Cloud, AI/LLM, and an unsuitable cardiothoracic-surgeon role. Match analysis, grounding, guardrails, cover letter, tool calling, and execution traces completed successfully with consistent Run IDs.
+- The historical Cover Letter `Top strengths: ASP.` output was traced to the old `ASP.NET` tokenization defect; current output uses `ASP.NET Core` and no artificial `.NET Core` critical gap appears.
+- Refreshed the five portfolio screenshots from the current validated application behavior and confirmed README image paths.
+- Completed the final repository and security audit: local secrets remain ignored, no secrets were committed, generated artifacts remain ignored, and no unnecessary private information was found in publishable files.
+- Committed and pushed the final changes to `main` as `e7682dd` (`Fix grounded match breakdown and refresh screenshots`). The working tree is clean and `main` matches `origin/main`.
+
 ## Current Final Status
 
-The implementation is complete and the repository documentation now reflects the actual codebase. The only remaining blocker for a live end-to-end OpenAI happy path is external account/billing state, not repository work.
+The implementation, documentation, screenshots, regression validation, and repository release state are complete. The final commit is published on `main`, with no remaining repository or application validation blocker.
