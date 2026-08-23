@@ -1,0 +1,61 @@
+{
+  "dataset_version": "wave-6",
+  "jobs": [
+    {
+      "id": "cover-dotnet-01",
+      "job_title": ".NET Developer",
+      "company_name": "Contoso",
+      "language": "en",
+      "tone": "professional",
+      "job_description": "We are seeking a .NET developer with strong C# and ASP.NET Core experience, REST APIs, and clean architecture skills. Experience with SQL, Docker, and cloud deployment is valued."
+    },
+    {
+      "id": "cover-fullstack-02",
+      "job_title": "Full-Stack Engineer",
+      "company_name": "Northwind",
+      "language": "en",
+      "tone": "technical",
+      "job_description": "We need a full-stack engineer with React, TypeScript, REST APIs, and backend service design experience. Strong collaboration and software quality focus expected."
+    },
+    {
+      "id": "cover-ai-03",
+      "job_title": "AI Engineer",
+      "company_name": "Apex Labs",
+      "language": "en",
+      "tone": "professional",
+      "job_description": "We are building AI-powered applications with prompting, RAG, and agent frameworks. Experience with evaluation, retrieval, and LLM-based application design is important."
+    },
+    {
+      "id": "cover-backend-04",
+      "job_title": "Backend Developer",
+      "company_name": "Redbox",
+      "language": "da",
+      "tone": "concise",
+      "job_description": "Vi søger en backendudvikler til at bygge robuste APIs, arbejde med clean architecture og Docker, og samarbejde tæt med produkt- og frontendteams."
+    },
+    {
+      "id": "cover-junior-05",
+      "job_title": "Junior Software Developer",
+      "company_name": "Blue Peak",
+      "language": "en",
+      "tone": "concise",
+      "job_description": "We are hiring a junior software developer interested in learning backend engineering, C#, and modern development practices while contributing to a collaborative team."
+    },
+    {
+      "id": "cover-unsupported-06",
+      "job_title": "Platform Engineer",
+      "company_name": "Summit Cloud",
+      "language": "en",
+      "tone": "professional",
+      "job_description": "We are looking for a platform engineer with Kubernetes, Azure, and distributed systems experience. Strong operational ownership and cloud deployment background is required."
+    },
+    {
+      "id": "cover-project-align-07",
+      "job_title": "Solutions Developer",
+      "company_name": "MedCom",
+      "language": "en",
+      "tone": "professional",
+      "job_description": "We are looking for a developer with healthcare domain understanding, API workflows, and clean architecture experience. Prior work with healthcare interoperability or system integration is a plus."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "dataset_version": "wave-5-best-match",
+  "cases": [
+    {
+      "id": "strong-dotnet-match",
+      "title": "Senior .NET Developer",
+      "description": "We need a .NET developer with C# and ASP.NET Core experience, Entity Framework Core, REST APIs, SQL, and Clean Architecture. Preferred: Docker and React TypeScript.",
+      "expected_required_matches": ["C#", "ASP.NET Core", "Entity Framework Core", "REST APIs", "SQL"],
+      "expected_preferred_matches": ["Docker", "React / TypeScript"],
+      "expected_critical_gaps": []
+    },
+    {
+      "id": "moderate-fullstack-match",
+      "title": "Full-Stack Developer",
+      "description": "Build responsive web apps with React, TypeScript, JavaScript, REST APIs, Docker, and SQL. Experience with Clean Architecture is valued.",
+      "expected_required_matches": ["React / TypeScript", "JavaScript", "REST APIs", "Docker"],
+      "expected_preferred_matches": ["Clean Architecture"],
+      "expected_critical_gaps": []
+    },
+    {
+      "id": "weak-ai-match",
+      "title": "AI Engineer",
+      "description": "Work on agentic AI systems using LangGraph, OpenAI Responses API, RAG, guardrails, and observability. Some Python and evaluation experience is welcome.",
+      "expected_required_matches": ["Agentic AI", "RAG", "Guardrails"],
+      "expected_preferred_matches": ["LangGraph", "OpenAI Responses API"],
+      "expected_critical_gaps": []
+    },
+    {
+      "id": "missing-critical-technology",
+      "title": "Backend Engineer",
+      "description": "Build ASP.NET Core services with SQL and authentication. Kubernetes deployment experience is required for this role.",
+      "expected_required_matches": ["ASP.NET Core", "SQL", "Authentication / authorization"],
+      "expected_preferred_matches": [],
+      "expected_critical_gaps": ["Kubernetes"]
+    },
+    {
+      "id": "missing-preferred-technology",
+      "title": "Platform Engineer",
+      "description": "Need Docker, CI/CD, and secure deployment practices. Terraform and Kubernetes are nice to have.",
+      "expected_required_matches": ["Docker", "CI/CD"],
+      "expected_preferred_matches": ["Terraform", "Kubernetes"],
+      "expected_critical_gaps": []
+    },
+    {
+      "id": "dotnet-focused-role",
+      "title": ".NET Developer",
+      "description": "C# and ASP.NET Core development, Blazor, Entity Framework Core, SQL, authentication, authorization, and secure API patterns. Experience with Clean Architecture is important.",
+      "expected_required_matches": ["C#", ".NET / ASP.NET Core", "Blazor", "Entity Framework Core", "Authentication / authorization"],
+      "expected_preferred_matches": ["Clean Architecture"],
+      "expected_critical_gaps": []
+    },
+    {
+      "id": "ai-focused-role",
+      "title": "LLM Developer",
+      "description": "Prototype LLM applications with function calling, RAG, evaluation, structured outputs, and reliable engineering. Python experience helpful.",
+      "expected_required_matches": ["LLM application development", "Function Calling", "RAG", "Agent evaluation"],
+      "expected_preferred_matches": ["Python (practical/developing level)"],
+      "expected_critical_gaps": []
+    },
+    {
+      "id": "cloud-devops-role",
+      "title": "Cloud / DevOps Developer",
+      "description": "Deploy web apps using Docker, Docker Compose, GitHub Actions, CI/CD, and secure configuration. Terraform and Kubernetes are a plus.",
+      "expected_required_matches": ["Docker", "Docker Compose", "GitHub Actions", "CI/CD"],
+      "expected_preferred_matches": ["Terraform", "Kubernetes"],
+      "expected_critical_gaps": []
+    }
+  ]
+}

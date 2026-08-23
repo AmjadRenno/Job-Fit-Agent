@@ -1,0 +1,69 @@
+{
+  "dataset_version": "wave-3.1",
+  "cases": [
+  {
+    "id": "junior-software-developer",
+    "title": "Junior Software Developer",
+    "job_description": "We are looking for a junior software developer to build and maintain web applications with C# and .NET. You will work with REST APIs, relational databases, testing, Git, and a collaborative development team. A relevant computer science education and willingness to learn are welcome.",
+    "expected_relevant_claims": ["C#", ".NET / ASP.NET Core", "REST APIs", "Testing (xUnit, NUnit, Moq)", "Git / GitHub"],
+    "expected_missing_requirements": [],
+    "forbidden_candidate_claims": ["Kubernetes", "expert-level experience"]
+  },
+  {
+    "id": "backend-developer",
+    "title": "Backend Developer",
+    "job_description": "Our backend team develops reliable services with ASP.NET Core, Entity Framework Core, SQL databases, authentication, authorization, and REST APIs. Experience with automated testing and Clean Architecture is valued.",
+    "expected_relevant_claims": ["ASP.NET Core", "Entity Framework Core", "SQL / relational databases", "Authentication / authorization", "Clean Architecture"],
+    "expected_missing_requirements": [],
+    "forbidden_candidate_claims": ["Kubernetes", "RabbitMQ professional experience"]
+  },
+  {
+    "id": "full-stack-developer",
+    "title": "Full-Stack Developer",
+    "job_description": "Join a product team building responsive web experiences across frontend and backend. The role uses React, TypeScript, JavaScript, REST APIs, databases, automated testing, and containerized development.",
+    "expected_relevant_claims": ["React / TypeScript", "JavaScript", "REST APIs", "Docker", "Full-stack development"],
+    "expected_missing_requirements": [],
+    "forbidden_candidate_claims": ["Angular", "expert React architect"]
+  },
+  {
+    "id": "dotnet-developer",
+    "title": ".NET Developer",
+    "job_description": "We need a .NET developer for ASP.NET Core applications, Blazor user interfaces, Entity Framework Core data access, SQL databases, authentication, and secure API development. The team follows Clean Architecture practices.",
+    "expected_relevant_claims": [".NET / ASP.NET Core", "Blazor", "Entity Framework Core", "SQL / relational databases", "Security-aware application development"],
+    "expected_missing_requirements": [],
+    "forbidden_candidate_claims": ["Kubernetes", "advanced Kafka"]
+  },
+  {
+    "id": "ai-llm-developer",
+    "title": "AI / LLM Developer",
+    "job_description": "Build prototypes that use large language models, structured outputs, function calling, retrieval concepts, and evaluation. Python experience and reliable software engineering practices are useful. Production AI experience is not required for this junior role.",
+    "expected_relevant_claims": ["LLM application development", "Function Calling", "RAG", "Agent evaluation", "Python (practical/developing level)"],
+    "expected_missing_requirements": ["Production AI experience"],
+    "forbidden_candidate_claims": ["Senior AI researcher", "production LLM platform experience"]
+  },
+  {
+    "id": "agentic-ai-engineer",
+    "title": "AI Engineer / Agentic AI",
+    "job_description": "Develop agentic AI workflows with tool use, structured claims, guardrails, observability, failure recovery, and evaluation. Familiarity with LangGraph, OpenAI Responses API, MCP, and RAG is relevant; the role expects careful grounding and transparent limitations.",
+    "expected_relevant_claims": ["Agentic AI", "LangGraph", "OpenAI Responses API", "Guardrails", "Agent evaluation"],
+    "expected_missing_requirements": ["Professional agentic AI production experience"],
+    "forbidden_candidate_claims": ["expert MCP engineer", "senior AI engineer"]
+  },
+  {
+    "id": "rag-software-developer",
+    "title": "Software Developer with RAG",
+    "job_description": "Help implement grounded question-answering features using embeddings, vector databases, retrieval pipelines, and evaluation. Strong API development, testing, and clear evidence handling are important. Experience with large-scale search infrastructure is optional.",
+    "expected_relevant_claims": ["RAG", "Embeddings", "Vector databases", "REST APIs", "Testing (xUnit, NUnit, Moq)"],
+    "expected_missing_requirements": ["Large-scale search infrastructure"],
+    "forbidden_candidate_claims": ["Qdrant production experience", "large-scale search architect"]
+  },
+  {
+    "id": "cloud-devops-software-developer",
+    "title": "Software Developer with Cloud / DevOps",
+    "job_description": "Work on cloud-hosted web applications and delivery automation using Docker, Docker Compose, GitHub Actions, CI/CD, environment configuration, and secure deployment practices. Experience with Terraform and Kubernetes is a plus, not a requirement.",
+    "expected_relevant_claims": ["Docker", "Docker Compose", "GitHub Actions", "CI/CD", "Environment configuration"],
+    "expected_missing_requirements": ["Terraform", "Kubernetes"],
+    "forbidden_candidate_claims": ["advanced Terraform", "Kubernetes production operations"]
+  }
+  ]
+}
