@@ -1,14 +1,26 @@
 # Job Fit Agent
 
-Job Fit Agent is a grounded job-fit analysis and cover-letter portfolio app. It reads a job description, retrieves canonical candidate evidence, validates claims with guardrails, computes a deterministic fit score, and presents the result through a React/Vite frontend with a real execution trace.
+Job Fit Agent is an evidence-first job matching and cover-letter portfolio app. It retrieves canonical candidate evidence, validates claims with guardrails, computes a deterministic fit score, and presents the result through a React/Vite frontend with a real execution trace.
+
+## Overview
+
+The system turns a job description into a grounded analysis of candidate strengths, gaps, and fit. Candidate claims are supported by profile evidence before they can appear in match results or the generated cover letter.
+
+## Screenshots
+
+### Job Input
+
+![Job Fit Agent job input](screenshots/job-input.png)
 
 ## Current Status
 
 - Backend complete.
 - Frontend + Agentic UX complete.
 - The system uses grounded RAG, OpenAI structured outputs, candidate-claim guardrails, bounded function calling, deterministic matching, and execution trace reporting.
-- Last live OpenAI validation was blocked by `429 billing_not_active` during the embedding call. That is an external account/billing limitation, not a repository code issue.
-- Automated backend tests: `67 passed`.
+- Final live validation completed successfully after resolving the function-tool schema compatibility issue.
+- `67` automated backend tests passed and the frontend build passed.
+- Five representative live scenarios were validated: .NET/Backend, React/Frontend, DevOps/Cloud, AI/LLM, and an unsuitable role.
+- RAG grounding, guardrail rejection of unsupported claims, tool calling, match analysis, cover-letter generation, and execution traces all completed successfully.
 - Frontend build: successful.
 
 ## What It Does
@@ -49,6 +61,10 @@ Canonical candidate evidence -> Retrieval -> Candidate Claims -> Guardrails -> A
 
 Approved claims are the source of truth for candidate facts.
 
+### Grounded Evidence
+
+![Grounded candidate evidence](screenshots/evidence-grounding.png)
+
 ## Agent Tool
 
 The only allowlisted tool is `search_candidate_evidence`.
@@ -57,6 +73,18 @@ The only allowlisted tool is `search_candidate_evidence`.
 - bounded calls
 - traceable evidence output
 - still subject to the existing guardrails
+
+### Agent Execution Trace
+
+![Agent execution trace](screenshots/execution-trace.png)
+
+## Match Analysis
+
+![Match analysis and score](screenshots/match-analysis.png)
+
+## Grounded Cover Letter
+
+![Grounded cover letter](screenshots/cover-letter.png)
 
 ## Security / Reliability
 
