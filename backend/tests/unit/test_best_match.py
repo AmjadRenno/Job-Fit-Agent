@@ -11,6 +11,7 @@ from app.models.best_match import (
     BestMatchResponse,
     JobRequirement,
 )
+from app.models.job_analysis import JobAnalysis, JobAnalysisRequest, JobAnalysisResponse, JobValidationResponse
 from app.services.jobs.best_match import BestMatchService
 from app.services.profile.repository import FileCandidateProfileRepository
 
@@ -132,6 +133,59 @@ def test_experience_markers_preserve_preferred_vs_required_importance_and_scorin
 
     assert result.score == 50.0
     assert result.critical_gaps == ["mandatory experience with Kubernetes"]
+
+
+def test_split_requirements_preserves_asp_net_core() -> None:
+    service = BestMatchService(None, None, None)  # type: ignore[arg-type]
+
+    requirements = service._split_requirements("Experience with ASP.NET Core")
+
+    assert requirements == ["Experience with ASP.NET Core"]
+
+
+def test_split_requirements_splits_genuine_sentences() -> None:
+    service = BestMatchService(None, None, None)  # type: ignore[arg-type]
+
+    requirements = service._split_requirements("Experience with ASP.NET Core. Strong SQL skills.")
+
+    assert requirements == ["Experience with ASP.NET Core", "Strong SQL skills"]
+
+
+def test_match_breakdown_uses_job_analysis_approved_claims(repository: FileCandidateProfileRepository) -> None:
+    approved_claim = CandidateClaim(
+        claim="ASP.NET Core",
+        claim_type="skill",
+        evidence_source="data/profile/skills.md",
+        evidence_excerpt="C# · .NET / ASP.NET Core · Entity Framework Core",
+    )
+
+    class FakeAnalysisService:
+        def analyze(self, request: JobAnalysisRequest) -> JobAnalysisResponse:
+            return JobAnalysisResponse(
+                status="analyzed",
+                validation=JobValidationResponse(is_valid=True, message="valid"),
+                analysis=JobAnalysis(matched_candidate_claims=[approved_claim]),
+            )
+
+    service = BestMatchService(
+        evidence_provider=None,  # type: ignore[arg-type]
+        llm=None,  # type: ignore[arg-type]
+        repository=repository,
+        analysis_service=FakeAnalysisService(),  # type: ignore[arg-type]
+    )
+
+    result = service._analyze_job(
+        BestMatchJobInput(
+            id="shared-claims",
+            title="Backend Engineer",
+            description="Experience with ASP.NET Core.",
+        )
+    )
+
+    assert result.matched_requirements == ["Experience with ASP.NET Core"]
+    assert result.requirement_results[0].matched_candidate_claims == [approved_claim]
+    assert "ASP" not in result.matched_requirements
+    assert "ASP" not in result.critical_gaps
 
 
 def test_unsupported_claim_is_rejected_and_cannot_affect_score(repository: FileCandidateProfileRepository) -> None:

@@ -51,10 +51,22 @@ def get_best_match_service(
         top_k=settings.rag_top_k,
         similarity_threshold=settings.rag_similarity_threshold,
     )
+    tool_registry = ToolRegistry(
+        [SearchCandidateEvidenceTool(evidence_provider)],
+        max_tool_calls=3,
+    )
+    analysis_service = JobAnalysisService(
+        evidence_provider=evidence_provider,
+        llm=None,
+        repository=repository,
+        tool_agent=OpenAIToolCallingJobAnalysisAgent(settings, max_iterations=3),
+        tool_registry=tool_registry,
+    )
     return BestMatchService(
         evidence_provider=evidence_provider,
         llm=None,
         repository=repository,
+        analysis_service=analysis_service,
     )
 
 

@@ -4,7 +4,12 @@ import re
 from dataclasses import dataclass
 from typing import Protocol
 
-from app.agent.guardrails import CandidateClaim, validate_candidate_claim
+from app.agent.guardrails import (
+    CandidateClaim,
+    _claim_terms_supported,
+    _normalize_claim_terms,
+    validate_candidate_claim,
+)
 from app.models.best_match import (
     BestMatchJobInput,
     BestMatchRequest,
@@ -12,9 +17,11 @@ from app.models.best_match import (
     JobMatchResult,
     JobRequirement,
 )
+from app.models.job_analysis import JobAnalysisRequest
 from app.models.profile import ProfileDocument
 from app.services.profile.evidence import CandidateEvidenceProvider
 from app.services.profile.repository import CandidateProfileRepository
+from app.services.jobs.analysis import JobAnalysisService
 from app.infrastructure.tracing import ExecutionTraceRecorder
 
 
@@ -56,10 +63,12 @@ class BestMatchService:
         evidence_provider: CandidateEvidenceProvider | None,
         llm: JobMatchingLLM | None,
         repository: CandidateProfileRepository | None,
+        analysis_service: JobAnalysisService | None = None,
     ) -> None:
         self._evidence_provider = evidence_provider
         self._llm = llm
         self._repository = repository
+        self._analysis_service = analysis_service
 
     def analyze(self, request: BestMatchRequest, run_id: str | None = None) -> BestMatchResponse:
         if not request.jobs:
@@ -108,6 +117,13 @@ class BestMatchService:
 
     def _analyze_job(self, job: BestMatchJobInput) -> JobMatchResult:
         evidence_documents: list[ProfileDocument] = []
+        approved_claims: list[CandidateClaim] = []
+        if self._analysis_service is not None:
+            analysis_response = self._analysis_service.analyze(
+                JobAnalysisRequest(job_description=job.description)
+            )
+            if analysis_response.analysis is not None:
+                approved_claims = analysis_response.analysis.matched_candidate_claims
         if self._evidence_provider is not None:
             evidence_documents = self._evidence_provider.get_evidence(job.description)
 
@@ -120,7 +136,10 @@ class BestMatchService:
             except Exception:
                 requirements = self._extract_requirements(job.description)
 
-        evaluated = [self._evaluate_requirement(requirement, evidence_documents) for requirement in requirements]
+        evaluated = [
+            self._evaluate_requirement(requirement, evidence_documents, approved_claims)
+            for requirement in requirements
+        ]
         return self._build_job_result(job, evaluated)
 
     def _extract_requirements(self, job_description: str) -> list[JobRequirement]:
@@ -160,7 +179,7 @@ class BestMatchService:
         return requirements
 
     def _split_requirements(self, text: str) -> list[str]:
-        sentence_chunks = re.split(r"[.;\n]", text)
+        sentence_chunks = re.split(r"\.(?=\s|$)|[;\n]", text)
         candidates: list[str] = []
         for chunk in sentence_chunks:
             chunk = chunk.strip()
@@ -225,30 +244,21 @@ class BestMatchService:
         self,
         requirement: JobRequirement,
         evidence_documents: list[ProfileDocument] | None = None,
+        approved_claims: list[CandidateClaim] | None = None,
     ) -> JobRequirement:
         evidence_documents = evidence_documents or []
 
         if not requirement.matched_candidate_claims:
-            if self._repository is None:
-                requirement.status = "unknown"
+            if approved_claims is not None:
+                requirement.matched_candidate_claims = [
+                    claim
+                    for claim in approved_claims
+                    if self._claim_supports_requirement(claim, requirement.requirement)
+                ]
+                requirement.evidence = list({claim.evidence_excerpt for claim in requirement.matched_candidate_claims})
+            else:
+                requirement.status = "missing"
                 return requirement
-
-            validated: list[CandidateClaim] = []
-            requirement_phrases = self._extract_requirement_claim_candidates(requirement.requirement)
-            for evidence in evidence_documents:
-                for claim_text in requirement_phrases:
-                    claim = CandidateClaim(
-                        claim=claim_text,
-                        claim_type=self._candidate_claim_type(requirement.requirement_type),
-                        evidence_source=evidence.source,
-                        evidence_excerpt=evidence.content,
-                    )
-                    result = validate_candidate_claim(claim, self._repository)
-                    if result.is_allowed:
-                        validated.append(claim)
-
-            requirement.matched_candidate_claims = validated
-            requirement.evidence = list({claim.evidence_excerpt for claim in validated})
 
         if self._repository is not None:
             approved_claims: list[CandidateClaim] = []
@@ -263,14 +273,30 @@ class BestMatchService:
             requirement.status = "missing"
             return requirement
 
-        requirement_text = requirement.requirement.lower()
-        matched_claims = [claim.claim.lower() for claim in requirement.matched_candidate_claims]
-        if any(requirement_text in claim for claim in matched_claims):
+        requirement_parts = [
+            part
+            for part in self._extract_requirement_claim_candidates(requirement.requirement)
+            if _normalize_claim_terms(part)
+        ]
+        supported_parts = [
+            part
+            for part in requirement_parts
+            if any(_claim_terms_supported(claim.claim, part) for claim in requirement.matched_candidate_claims)
+        ]
+        if supported_parts and len(supported_parts) == len(requirement_parts):
             requirement.status = "matched"
             return requirement
 
         requirement.status = "partially_matched"
         return requirement
+
+    def _claim_supports_requirement(self, claim: CandidateClaim, requirement: str) -> bool:
+        requirement_parts = [
+            part
+            for part in self._extract_requirement_claim_candidates(requirement)
+            if _normalize_claim_terms(part)
+        ]
+        return any(_claim_terms_supported(claim.claim, part) for part in requirement_parts)
 
     def _extract_requirement_claim_candidates(self, requirement: str) -> list[str]:
         pieces = [piece.strip() for piece in re.split(r"\band\b|\bwith\b|\bor\b|,|/|;", requirement.lower()) if piece.strip()]
