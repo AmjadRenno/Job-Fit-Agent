@@ -1,4 +1,16 @@
-# Job Fit Agent
+# Job Fit Agent — Earlier Version
+
+> **This repository contains an earlier version of Job Fit Agent.**
+>
+> The current portfolio version includes Azure deployment, PostgreSQL,
+> CI/CD, MCP, bounded agentic workflows, and a public read-only demo.
+>
+> **Current version:** https://github.com/AmjadRenno/job-fit-agent-cloud-demo  
+> **Live demo:** https://calm-wave-00271bf0f.4.azurestaticapps.net
+
+This version focuses on grounded RAG, candidate-evidence guardrails,
+deterministic job matching, grounded cover-letter generation,
+and execution tracing.
 
 Job Fit Agent is an evidence-first job matching and cover-letter portfolio app. It retrieves canonical candidate evidence, validates claims with guardrails, computes a deterministic fit score, and presents the result through a React/Vite frontend with a real execution trace.
 
